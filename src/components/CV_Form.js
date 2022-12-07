@@ -6,15 +6,24 @@ import CV_Result from './CV_Result';
 const CV_Form = () => {
 	const [submit, setSubmit] = useState(false);
 	const [user, setUser] = useState({});
+	const [obj, setObj] = useState({});
 	const [project, setProject] = useState([]);
 	const [show, setShow] = useState(false);
   const [fileDataURL, setFileDataURL] = useState(null);
 	const imageType = /image\/(png|jpg|jpeg)/i;
 
+	[
+		
+	]
+
 	const goto = () => {
 		setSubmit(true);
     console.log('user',user)
 	};
+
+	const handleAdd = () => {
+		[...project, obj]
+	}
 
 	{console.log('.........', (!!project[0]?.project_title && !!project[0]?.project_description && !!project[0]?.project_technology))}
 	return (
@@ -170,10 +179,16 @@ const CV_Form = () => {
 								placeholder='enter project description'
 							/>
 							{
-								(!!project[0]?.project_title && !!project[0]?.project_description && !!project[0]?.project_technology) &&
-								(<div>
-								<a>Add more</a>
-								</div>)
+								(
+									!!project[0].project_title &&
+									!!project[0].project_description &&
+									!!project[0].project_technology
+								) &&
+								(
+									<div>
+										<a onClick={handleAdd}>Add more</a>
+									</div>
+								)
 							}
 						</div>
 					</div>
