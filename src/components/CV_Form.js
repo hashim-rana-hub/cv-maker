@@ -23,6 +23,9 @@ const CV_Form = () => {
 
 	const handleAdd = () => {
 		[...project, obj]
+		project.map(item => {
+			item.title
+		})
 	}
 
 	{console.log('.........', (!!project[0]?.project_title && !!project[0]?.project_description && !!project[0]?.project_technology))}
