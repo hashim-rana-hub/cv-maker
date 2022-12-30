@@ -2,7 +2,9 @@
   margin: 0;
   padding: 0;
 }
-
+a {
+  cursor: pointer;
+}
 body {
   background-color: #374f59;
   color: #374f59;
@@ -71,9 +73,7 @@ body {
 }
 .cv-form .resulted-cv .profile .image {
   width: 250px;
-  height: 300px img;
-  height-max-width: 100%;
-  height-height: 100%;
+  height: 300px;
 }
 .cv-form .resulted-cv .detail {
   flex: 1;
