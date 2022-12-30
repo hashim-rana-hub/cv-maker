@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import React, { useState, useEffect } from 'react';
 import '../styles/styles.scss';
 import CV_Result from './CV_Result';
@@ -6,35 +5,74 @@ import CV_Result from './CV_Result';
 const CV_Form = () => {
 	const [submit, setSubmit] = useState(false);
 	const [user, setUser] = useState({});
-	const [project, setProject] = useState([]);
+	const [obj, setObj] = useState({});
+	const [project, setProject] = useState([
+		{
+			project_title: '',
+			project_description: '',
+			project_technology: '',
+		},
+	]);
 	const [show, setShow] = useState(false);
-  const [fileDataURL, setFileDataURL] = useState(null);
+	const [fileDataURL, setFileDataURL] = useState(null);
 	const imageType = /image\/(png|jpg|jpeg)/i;
 
 	const goto = () => {
 		setSubmit(true);
-    console.log('user',user)
+		console.log('user', user);
 	};
 
-	{console.log('.........', (!!project[0]?.project_title && !!project[0]?.project_description && !!project[0]?.project_technology))}
-	return (
+	const handleAdd = (e) => {
+		e.preventDefault();
+		console.log('projects:', project);
+		setProject([
+			...project,
+			{
+				project_title: '',
+				project_description: '',
+				project_technology: '',
+			},
+		]);
+		console.log('....');
+		// project.map(item => {
+		// 	item.title
+		// })
+	};
+	const handleRemove = (e, index) => {
+		// e.preventDefault();
+		console.log('index', index, project.filter((e, i) => index!=i));
+		setProject(project.filter((e, i) => index!=i))
+	}
 
+	useEffect(()=> {
+		console.log("array", project);
+	},[project,handleRemove])
+	
+	// {console.log('.........', (!!project[0]?.project_title && !!project[0]?.project_description
+	// 	 && !!project[0]?.project_technology))}
+	console.log('result', project);
+	// console.log('title', 		project[project?.length - 1]?.project_title);
+	// console.log('desc',  project[project?.length - 1]?.project_description);
+	// console.log("tech", project[project?.length - 1]?.project_technology);
+	return (
 		<div className='cv-form'>
 			{submit ? (
 				<div className='resulted-cv'>
 					<div className='profile'>
-					<div className='image-wrapper'>
-						<div className='image'>
-							<img src={`${user?.profileImg}`} alt='test'/>
+						<div className='image-wrapper'>
+							<div className='image'>
+								<img src={`${user?.profileImg}`} alt='test' />
+							</div>
 						</div>
-					</div>
 						<h1>PROFILE</h1>
 						<p>{user.bio}</p>
 						<h1>EDUCATION</h1>
 						<div>
-							<h3 style={{display: 'flex',justifyContent:"space-between", margin:"5px 0"}}>
-							<span style={{fontSize:'12px'}}>Degree: {user.recent_degree}</span>
-							<span style={{fontSize:'12px'}}>{user.degree_start}-{user.degree_ending}</span>
+							<h3 style={{ display: 'flex', justifyContent: 'space-between', margin: '5px 0' }}>
+								<span style={{ fontSize: '12px' }}>Degree: {user.recent_degree}</span>
+								<span style={{ fontSize: '12px' }}>
+									{user.degree_start}-{user.degree_ending}
+								</span>
 							</h3>
 							<h5>University: {user.university_name}</h5>
 						</div>
@@ -129,52 +167,58 @@ const CV_Form = () => {
 								placeholder='enter university name'
 							/>
 							<input
-							type='number'
-							value={user.degree_start}
-							onChange={(e) => setUser({ ...user, degree_start: e.target.value })}
-							placeholder='starting date'
-						/>
-						<input
-							type='number'
-							value={user.degree_ending}
-							onChange={(e) => setUser({ ...user, degree_ending: e.target.value })}
-							placeholder='ending date'
-						/>
+								type='number'
+								value={user.degree_start}
+								onChange={(e) => setUser({ ...user, degree_start: e.target.value })}
+								placeholder='starting date'
+							/>
+							<input
+								type='number'
+								value={user.degree_ending}
+								onChange={(e) => setUser({ ...user, degree_ending: e.target.value })}
+								placeholder='ending date'
+							/>
 						</div>
 					</div>
-					
+
 					<div className='field-wrapper-multiple'>
 						<label>Projects</label>
 						<div className='education'>
-						
-							<input
-								type='text'
-								onBlur={(e) => setProject([...project, { project_title: e.target.value }])}
-								placeholder='enter project title'
-							/>
-							<input
-							type='text'
-							value={project[project?.length - 1]?.project_technology}
-              onBlur={(e) => {
-								project[project.length - 1].project_technology = e.target.value;
-							}}
-              placeholder='enter technology'
-						/>
-							<input
-								style={{marginRight: "0"}}
-								type='text'
-								value={project[project?.length - 1]?.project_description}
-								onBlur={(e) => {
-									project[project.length - 1].project_description = e.target.value;
-								}}
-								placeholder='enter project description'
-							/>
-							{
-								(!!project[0]?.project_title && !!project[0]?.project_description && !!project[0]?.project_technology) &&
-								(<div>
-								<a>Add more</a>
-								</div>)
-							}
+							{project?.map((p,index) => (
+								<>
+									<input
+										type='text'
+										onChange={(e) => {
+											project[project.length - 1].project_title = e.target.value;
+										}}
+										placeholder='enter project title'
+									/>
+									<input
+										type='text'
+										onChange={(e) => {
+											project[project.length - 1].project_technology = e.target.value;
+										}}
+										placeholder='enter technology'
+									/>
+									<input
+										style={{ marginRight: '0' }}
+										type='text'
+										onChange={(e) => {
+											project[project.length - 1].project_description = e.target.value;
+										}}
+										placeholder='enter project description'
+									/>
+									{
+										project?.length > 1 && <div>
+										<a onClick={(e) => handleRemove(e, index)}>Remove</a>
+									</div>	
+									}
+										
+								</>
+							))}
+							<div>
+								<a onClick={(e) => handleAdd(e)}>Add more</a>
+							</div>
 						</div>
 					</div>
 					<div className='field-wrapper'>
@@ -205,17 +249,17 @@ const CV_Form = () => {
 							onChange={(e) => setUser({ ...user, skills: e.target.value })}
 							placeholder='enter your skills'
 						/>
-            </div>
+					</div>
 
 					<div className='field-wrapper'>
-          <label>Profile Picture</label>
-          <input
-            type='file'
-						accept='.png, .jpg, .jpeg'
-						onChange={(e) => setUser({ ...user, profileImg: URL.createObjectURL(e.target.files[0]) })}
-            placeholder=''
-        />
-          </div>
+						<label>Profile Picture</label>
+						<input
+							type='file'
+							accept='.png, .jpg, .jpeg'
+							onChange={(e) => setUser({ ...user, profileImg: URL.createObjectURL(e.target.files[0]) })}
+							placeholder=''
+						/>
+					</div>
 
 					<button onClick={goto}>Submit</button>
 				</>
