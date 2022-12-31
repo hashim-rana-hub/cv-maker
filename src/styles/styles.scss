@@ -16,11 +16,12 @@ body {
 	align-items: center;
 	background-color: #cbe5ef;
 	border-radius: 20px;
+	padding: 05px 10px;
 	.field-wrapper-multiple {
 		display: flex;
 		justify-content: center;
 		align-items: top;
-		width: 700px;
+		width:100%;
 		label {
 			flex: 0 0 150px;
 			text-align: left;
@@ -48,7 +49,7 @@ body {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 700px;
+		width: 100%;
 		label {
 			flex: 0 0 150px;
 			text-align: left;
@@ -81,13 +82,15 @@ body {
 		display: flex;
     width: 100%;
     background-color: white;
+		gap: 10px;
 		.profile {
 			flex: 0 0 30%;
 			background-color: #cbe5ef;
-      border-bottom-left-radius: 30%;
-      border-bottom-right-radius: 30%;
+      border-bottom-left-radius: 15%;
+      border-bottom-right-radius: 15%;
       margin-left: 30px;
       text-align: left;
+			padding: 5px 20px;
 			h1 {
 				font-size: 15px;
 				font-weight: bold;
@@ -128,9 +131,21 @@ body {
         text-align: center;
       }
       .designation {
-        font-size: 13px;
+        font-size: 20px;
         text-align: center;
+				margin: 10px auto 20px;
       }
+			.experience {
+				margin-top: 20px;
+				margin-bottom: 30px;
+				line-height: 1.2;
+			}
+			.projects {
+				h3 {
+					margin-top: 10px;
+					font-size: 14px;
+				}
+			}
 		}
 	}
 }
