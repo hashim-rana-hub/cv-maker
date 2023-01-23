@@ -13,12 +13,12 @@ const CV_Form = () => {
 			project_description: '',
 		},
 	]);
+	const [experience, setExprience] = useState([{ company_name: '', job_title: '', job_description: '' }]);
 	const [show, setShow] = useState(false);
 	const [fileDataURL, setFileDataURL] = useState(null);
 	const imageType = /image\/(png|jpg|jpeg)/i;
 
-	console.log('now', project);
-	const add_more = (e) => {
+	const add_project = (e) => {
 		e.preventDefault();
 		setProject([
 			...project,
@@ -29,10 +29,20 @@ const CV_Form = () => {
 			},
 		]);
 	};
+	const add_experience = (e) => {
+		e.preventDefault();
+		setExprience(...experience, {
+			company_name: '',
+			job_title: '',
+			job_description: '',
+		});
+	};
 	const goto = () => {
 		setSubmit(true);
 		console.log('user', user);
+		console.log('exp', experience);
 	};
+
 	return (
 		<div className='cv-form'>
 			{submit ? (
@@ -69,12 +79,23 @@ const CV_Form = () => {
 						</h1>
 						<p className='designation'>{user.designation}</p>
 						<h2>WORK EXPERIENCE</h2>
+						{experience?.map((exp, i) => (
+							<>
+								<h3>{exp.company_name}</h3>
+								<h2>{exp.job_title}</h2>
+								<p>{exp.job_description}</p>
+							</>
+						))}
 						<p className='experience'>{user.experience}</p>
 						<div className='projects'>
 							<h1>PROJECTS</h1>
-							<h3>{project[project.length - 1]?.project_title}</h3>
-							<h3>{project[project.length - 1]?.project_description}</h3>
-							<h3>{project[project.length - 1]?.project_technology}</h3>
+							{project?.map((prj) => (
+								<>
+									<h3>{prj.project_title}</h3>
+									<h3>{prj.project_description}</h3>
+									<h3>{prj.project_technology}</h3>
+								</>
+							))}
 						</div>
 					</div>
 				</div>
@@ -171,7 +192,6 @@ const CV_Form = () => {
 								/>
 								<input
 									type='text'
-									// value={project[project?.length - 1]?.project_technology}
 									onChange={(e) => {
 										project[project.length - 1].project_technology = e.target.value;
 									}}
@@ -180,7 +200,6 @@ const CV_Form = () => {
 								<input
 									style={{ marginRight: '0' }}
 									type='text'
-									// value={project[project?.length - 1]?.project_description}
 									onChange={(e) => {
 										project[project.length - 1].project_description = e.target.value;
 									}}
@@ -190,18 +209,35 @@ const CV_Form = () => {
 						))}
 						{project[project.length - 1]?.project_description && (
 							<div>
-								<a onClick={(e) => add_more(e)}>Add more</a>
+								<a onClick={(e) => add_project(e)}>Add more</a>
 							</div>
 						)}
 					</div>
-					<div className='field-wrapper'>
+					<div className='field-wrapper-multiple'>
 						<label>Experience</label>
-						<input
-							type='text'
-							// value={user.experience}
-							onChange={(e) => setUser({ ...user, experience: e.target.value })}
-							placeholder='enter your experience'
-						/>
+						<div className='education'>
+							<input
+								type='text'
+								placeholder='company name'
+								onChange={(e) => (experience[experience.length - 1].company_name = e.target.value)}
+							/>
+							<input
+								type='text'
+								placeholder='job title'
+								onChange={(e) => (experience[experience.length - 1].job_title = e.target.value)}
+							/>
+							<input
+								type='text'
+								style={{ marginRight: 0 }}
+								placeholder='job description'
+								onChange={(e) => (experience[experience.length - 1].job_description = e.target.value)}
+							/>
+						</div>
+						{experience[experience.length - 1].job_description && (
+							<div>
+								<a onClick={(e) => add_experience(e)}>Add more</a>
+							</div>
+						)}
 					</div>
 
 					<div className='field-wrapper'>

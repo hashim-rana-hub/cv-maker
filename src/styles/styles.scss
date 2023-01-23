@@ -54,6 +54,12 @@ body {
 			flex: 0 0 150px;
 			text-align: left;
 		}
+		.experience {
+			display: grid;
+			grid-template-columns: auto auto;
+			column-gap: 40px;
+			background: #2c3c42;
+		}
 		input {
 			flex: 1;
 			margin: 10px auto;
